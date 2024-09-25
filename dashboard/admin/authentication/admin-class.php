@@ -120,8 +120,6 @@
         if ($otp == $_SESSION['OTP']) {
             unset($_SESSION['OTP']);
 
-            $this->addAdmin($csrf_token, $username, $email, $password);
-
             // Prepare success message
             $subject = "VERIFICATION SUCCESS";
             $message = "
@@ -173,7 +171,7 @@
                     </div>
                     <h1>Welcome</h1>
                     <p>Hello, <strong>$email</strong></p>
-                    <p>Welcome to Jhenny System</p>
+                    <p>Welcome To Our System</p>
                     <p>If you did not sign up for an account, you can safely ignore this email.</p>
                     <p>Thank you!</p>
                 </div>
@@ -181,12 +179,15 @@
             </html>";
 
             $this->send_email($email, $message, $subject, $this->smtp_email, $this->smtp_password);
-            echo "<script>alert('Verification successful! Thank you for verifying your email.'); window.location.href = '../../../';</script>";
+            echo "<script>alert('Verification successful! Thank you for verifying your email.'); window.location.href = '../../../../';</script>";
 
             // Clear session variables
             unset($_SESSION['not_verify_username']);
             unset($_SESSION['not_verify_email']);
             unset($_SESSION['not_verify_password']);
+
+            $this->addAdmin($csrf_token, $username, $email, $password);
+
         } else if ($otp == NULL) {
             echo "<script>alert('No OTP Found'); window.location.href = '../../../verify-otp.php';</script>";
             exit;
@@ -223,7 +224,7 @@
         ));
 
         if ($exec) {
-            echo "<script>alert('Admin Added Successfully.'); window.location.href = '../../../../';</script>";
+            echo "<script>alert('Admin Added Successfully.'); window.location.href = '../../../';</script>";
             exit;
         } else {
             echo "<script>alert('Error Adding Admin.'); window.location.href = '../../../';</script>";
@@ -367,3 +368,4 @@ if (isset($_GET['admin_signout'])) {
     $adminSignout = new ADMIN();
     $adminSignout->adminSignout();
 }
+?>
